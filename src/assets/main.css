@@ -1,0 +1,13 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+body{
+  width: 100vw;
+  height: 100vh;
+  background: rgb(2,0,36);
+  background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(77,82,130,1) 0%, rgba(2,9,35,1) 71%);
+  overflow-x: hidden;
+}
