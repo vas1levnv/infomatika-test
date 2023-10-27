@@ -1,6 +1,6 @@
 <script setup>
 import {Swiper, SwiperSlide} from 'swiper/vue';
-import {Pagination, Navigation} from 'swiper/modules';
+import {Mousewheel} from "swiper/modules";
 import 'swiper/css';
 import {ref} from 'vue'
 
@@ -14,6 +14,9 @@ const events = [
 ]
 let teamHome = ref(null)
 let teamGuest = ref(null)
+
+//SwiperCore.use([Mousewheel]);
+
 const onSwiper = (swiper) => {
 	swiperInstance = swiper
 };
@@ -25,6 +28,9 @@ const onSlideChange = (e) => {
 const slideEventsTo = (position) => {
 	swiperInstance?.slideTo(position - 1)
 }
+
+const modules = [Mousewheel]
+
 </script>
 
 <template>
@@ -34,13 +40,17 @@ const slideEventsTo = (position) => {
 				:slides-per-view="5"
 				:centeredSlides="true"
 				:initial-slide="2"
+				:watchSlidesProgress="true"
+				:mousewheel="true"
+				:speed="1500"
 				@swiper="onSwiper"
 				@slideChange="onSlideChange"
 			>
 				<swiper-slide
 					@click="slideEventsTo(event.id)"
+					v-slot="{ isVisible }"
 					v-for="event in events">
-					<div class="events-item">
+					<div class="events-item" :class="{notVisible: !isVisible}">
 						<div class="events-item__place">{{ event.place }}</div>
 						<div class="events-item__date">{{ event.date }}</div>
 						<div class="events-item__time">{{ event.time }}</div>
@@ -65,6 +75,7 @@ header
 	background: white
 	position: absolute
 	z-index: 10
+	width: 310px
 	font-size: 3rem
 	
 	&-home
@@ -152,35 +163,40 @@ header
 			transition: all 0.3s ease
 			transform: scale(0)
 
+.notVisible
+	display: none
+
 .swiper
-	width: 100%
+	width: 80%
 	height: 100%
 	
 	&-slide
 		display: flex
 		align-items: center
+		justify-content: end
+		
 		.events-item
-			margin-top: auto
-			margin-bottom: 20%
+			margin-right: 0
+			transition: all 1.5s ease
+			transform: translateY( 250%)
+			
 		&-active
 			.events-item
-				transform: scale(3)
-				margin: auto
+				margin: 0 auto
+				transform: translateY(0) scale(3)
 			.events-item__place, .events-item__time
 				transform: scale(1)
 		&-prev
 			.events-item
-				margin-top: 150%
-				margin-bottom: 0
-				transform: scale(1.5)
+				margin: 0 auto
+				transform: translateY(150%)  scale(1.5)
 		&-next
-			
-			& + .swiper-slide
-				margin-top: 20%
-				margin-bottom: auto
-			
 			.events-item
-				margin-top: 0
-				margin-bottom: 150%
-				transform: scale(1.5)
+				margin: 0 auto
+				transform: translateY(-150%) scale(1.5)
+			& + .swiper-slide
+				.events-item
+					margin-left: 0
+					margin-right: auto
+					transform: translateY(-250%)
 </style>
