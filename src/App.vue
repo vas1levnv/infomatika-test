@@ -7,11 +7,51 @@ import {ref} from 'vue'
 
 let swiperInstance = ref(null)
 const events = [
-  {id: 1, place: 'Стадион', date: '30 мая', time: '17:00', teamHome: 'Соперник №9', teamGuest: 'Соперник №10', link: 'https://www.youtube.com/watch?v=bVSJLMkDxbE&ab_channel=%D0%9F%D0%B5%D1%80%D0%B5%D0%BC%D0%BE%D1%82%D0%BA%D0%B0%2FPeremotka'},
-  {id: 2, place: 'Стадион', date: '17 июня', time: '18:00', teamHome: 'Соперник №7', teamGuest: 'Соперник №8', link: 'https://www.youtube.com/watch?v=bVSJLMkDxbE&ab_channel=%D0%9F%D0%B5%D1%80%D0%B5%D0%BC%D0%BE%D1%82%D0%BA%D0%B0%2FPeremotka'},
-  {id: 3, place: 'Стадион', date: '26 июня', time: '19:00', teamHome: 'Соперник №1', teamGuest: 'Соперник №2', link: 'https://www.youtube.com/watch?v=bVSJLMkDxbE&ab_channel=%D0%9F%D0%B5%D1%80%D0%B5%D0%BC%D0%BE%D1%82%D0%BA%D0%B0%2FPeremotka'},
-  {id: 4, place: 'Стадион', date: '16 июля', time: '20:00', teamHome: 'Соперник №3', teamGuest: 'Соперник №4', link: 'https://www.youtube.com/watch?v=bVSJLMkDxbE&ab_channel=%D0%9F%D0%B5%D1%80%D0%B5%D0%BC%D0%BE%D1%82%D0%BA%D0%B0%2FPeremotka'},
-  {id: 5, place: 'Стадион', date: '30 сентября', time: '21:00', teamHome: 'Соперник №5', teamGuest: 'Соперник №6', link: 'https://www.youtube.com/watch?v=bVSJLMkDxbE&ab_channel=%D0%9F%D0%B5%D1%80%D0%B5%D0%BC%D0%BE%D1%82%D0%BA%D0%B0%2FPeremotka'},
+  {
+    id: 1,
+    place: 'Стадион',
+    date: '30 мая',
+    time: '17:00',
+    teamHome: 'Соперник №9',
+    teamGuest: 'Соперник №10',
+    link: 'https://www.youtube.com/watch?v=bVSJLMkDxbE&ab_channel=%D0%9F%D0%B5%D1%80%D0%B5%D0%BC%D0%BE%D1%82%D0%BA%D0%B0%2FPeremotka'
+  },
+  {
+    id: 2,
+    place: 'Стадион',
+    date: '17 июня',
+    time: '18:00',
+    teamHome: 'Соперник №7',
+    teamGuest: 'Соперник №8',
+    link: 'https://www.youtube.com/watch?v=bVSJLMkDxbE&ab_channel=%D0%9F%D0%B5%D1%80%D0%B5%D0%BC%D0%BE%D1%82%D0%BA%D0%B0%2FPeremotka'
+  },
+  {
+    id: 3,
+    place: 'Стадион',
+    date: '26 июня',
+    time: '19:00',
+    teamHome: 'Соперник №1',
+    teamGuest: 'Соперник №2',
+    link: 'https://www.youtube.com/watch?v=bVSJLMkDxbE&ab_channel=%D0%9F%D0%B5%D1%80%D0%B5%D0%BC%D0%BE%D1%82%D0%BA%D0%B0%2FPeremotka'
+  },
+  {
+    id: 4,
+    place: 'Стадион',
+    date: '16 июля',
+    time: '20:00',
+    teamHome: 'Соперник №3',
+    teamGuest: 'Соперник №4',
+    link: 'https://www.youtube.com/watch?v=bVSJLMkDxbE&ab_channel=%D0%9F%D0%B5%D1%80%D0%B5%D0%BC%D0%BE%D1%82%D0%BA%D0%B0%2FPeremotka'
+  },
+  {
+    id: 5,
+    place: 'Стадион',
+    date: '30 сентября',
+    time: '21:00',
+    teamHome: 'Соперник №5',
+    teamGuest: 'Соперник №6',
+    link: 'https://www.youtube.com/watch?v=bVSJLMkDxbE&ab_channel=%D0%9F%D0%B5%D1%80%D0%B5%D0%BC%D0%BE%D1%82%D0%BA%D0%B0%2FPeremotka'
+  },
 ]
 let teamHome = ref(null)
 let teamGuest = ref(null)
@@ -36,13 +76,14 @@ const modules = [Mousewheel]
   <main>
     <div class="events-wrapper">
       <swiper
-          :slides-per-view="5"
+          :slides-per-view="3"
           :modules="modules"
           :centeredSlides="true"
           :initial-slide="2"
           :watchSlidesProgress="true"
           :mousewheel="true"
           :speed="1500"
+          :breakpoints="{992:{ slidesPerView:5, } }"
           @swiper="onSwiper"
           @slideChange="onSlideChange"
       >
@@ -77,16 +118,10 @@ const modules = [Mousewheel]
   white-space: nowrap;
   color: black;
 
-  &-home {
-    top: 50%;
-    left: 50%;
-    transform: translate(-165%, -210%);
-
-    &:before {
+  &-home, &-guest{
+    &:before{
       content: "";
       position: absolute;
-      top: -40px;
-      right: -40px;
       width: 2000px;
       height: 150px;
       -webkit-transform: skew(-30deg);
@@ -98,24 +133,25 @@ const modules = [Mousewheel]
     }
   }
 
+  &-home {
+    top: 50%;
+    left: 50%;
+    transform: translate(-165%, -210%);
+
+    &:before {
+      top: -40px;
+      right: -40px;
+    }
+  }
+
   &-guest {
     bottom: 50%;
     right: 50%;
     transform: translate(165%, 185%);
 
     &:before {
-      content: "";
-      position: absolute;
       top: -40px;
       left: -40px;
-      width: 2000px;
-      height: 150px;
-      -webkit-transform: skew(-30deg);
-      -moz-transform: skew(-30deg);
-      -o-transform: skew(-30deg);
-      background: white;
-      border-radius: 15px;
-      z-index: -2;
     }
   }
 }
@@ -130,27 +166,24 @@ const modules = [Mousewheel]
     justify-content: center;
     align-items: center;
 
-    &:before{
+    &:before, &:after{
       content: '';
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 35vw;
-      height: 35vw;
       border-radius: 50%;
       border: 2px solid white;
     }
-    &:after{
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+
+    &:before {
+      width: 35vw;
+      height: 35vw;
+    }
+
+    &:after {
       width: 60vw;
       height: 60vw;
-      border-radius: 50%;
-      border: 2px solid white;
     }
   }
 
@@ -193,7 +226,7 @@ const modules = [Mousewheel]
       transform: rotate(-60deg);
     }
 
-    &__date{
+    &__date {
       font-weight: 600;
       white-space: nowrap;
     }
@@ -203,11 +236,12 @@ const modules = [Mousewheel]
       display: none;
     }
 
-    &__link{
+    &__link {
       padding: 0.25rem 0.5rem;
       border-radius: 0.25rem;
       border: 1px solid black;
-      &:hover{
+
+      &:hover {
         background: black;
       }
     }
@@ -263,6 +297,126 @@ const modules = [Mousewheel]
           margin-left: 0;
           margin-right: auto;
           transform: translateY(-250%);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1400px) {
+  .events {
+    &-wrapper {
+      &:before {
+        width: 45vw;
+        height: 45vw;
+      }
+
+      &:after {
+        width: 68vw;
+        height: 68vw;
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .team {
+    font-size: 2.5rem;
+    &-home, &-guest{
+      &:before{
+        height: 120px;
+      }
+    }
+
+    &-home {
+      text-align: end;
+    }
+
+    &-guest {
+      transform: translate(165%, 210%);
+    }
+
+  }
+
+  .swiper {
+    &-slide {
+      &-active {
+        .events-item {
+          transform: scale(2.5);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .team {
+    font-size: 1.5rem;
+    &-home, &-guest{
+      &:before{
+        height: 100px;
+      }
+    }
+
+    &-home {
+      text-align: end;
+      transform: translate(-155%, -320%);
+    }
+
+    &-guest {
+      transform: translate(154%, 350%);
+    }
+  }
+
+  .events{
+    &-wrapper{
+      &:before{
+        display: none;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .team {
+    &-home {
+      text-align: end;
+      transform: translate(-80%, -670%);
+    }
+
+    &-guest {
+      transform: translate(80%, 700%);
+    }
+  }
+
+  .events{
+    &-wrapper{
+      &:after{
+        width: 60vw;
+        height: 60vw;
+      }
+    }
+  }
+
+  .swiper {
+    width: 80%;
+
+    &-slide {
+      &-active {
+        .events-item {
+          transform: translateY(0) scale(1.5);
+        }
+      }
+
+      &-prev {
+        .events-item {
+          transform: translateY(70%) scale(0.75);
+        }
+      }
+
+      &-next {
+        .events-item {
+          transform: translateY(-70%) scale(0.75);
         }
       }
     }

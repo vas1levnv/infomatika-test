@@ -69,4 +69,23 @@ import MenuIcon from "@/components/icons/menu-icon.vue";
   padding: 0 2rem;
 }
 
+@media (max-width: 1200px) {
+  .header{
+    &-list{
+      font-size: 1rem;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .header{
+    &-wrapper{
+      justify-content: end;
+    }
+    &-list{
+      display: none;
+    }
+  }
+}
+
 </style>
