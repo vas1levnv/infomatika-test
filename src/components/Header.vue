@@ -1,14 +1,17 @@
 <script setup>
-
 import Exit from "@/components/icons/exit.vue";
 import MenuIcon from "@/components/icons/menu-icon.vue";
+import {ref} from "vue";
+
+const isOpen = ref(false)
+
 </script>
 
 <template>
   <header class="header">
     <div class="container">
       <div class="header-wrapper">
-        <ul class="header-list">
+        <ul class="header-list" :class="{open:isOpen}">
           <li><a href="#">Билеты и абонементы</a></li>
           <li><a href="#">Как купить?</a></li>
           <li><a href="#">Правила</a></li>
@@ -18,7 +21,7 @@ import MenuIcon from "@/components/icons/menu-icon.vue";
             <div>Войти</div>
           </a></li>
         </ul>
-        <div class="header-menu">
+        <div class="header-menu" @click="isOpen = !isOpen">
           <menu-icon/>
         </div>
       </div>
@@ -63,6 +66,11 @@ import MenuIcon from "@/components/icons/menu-icon.vue";
     display: flex;
     gap: 0.5rem;
   }
+
+  &-menu{
+    z-index: 10;
+    cursor: pointer;
+  }
 }
 
 .container {
@@ -83,7 +91,24 @@ import MenuIcon from "@/components/icons/menu-icon.vue";
       justify-content: end;
     }
     &-list{
-      display: none;
+      position: fixed;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2rem;
+      gap: 0.5rem;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transform: translateX(-100%);
+      transition: all 0.3s ease;
+      background: rgb(2,0,36);
+      background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(77,82,130,1) 0%, rgba(2,9,35,1) 71%);
+
+      &.open{
+        transform: translateX(0);
+
+      }
     }
   }
 }
